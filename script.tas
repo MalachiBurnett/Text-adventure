@@ -1,0 +1,97 @@
+Poof! You wake up. You find yourself sitting, leaning against the corner
+of a cold, damp room, the only illumination coming from a solitary
+candle - almost nothing more than a puddle of wax in the adjacent corner.
+There is a wooden door centred on the opposite wall, contrasting with
+the mossy stone walls.
+
+;door-choice
+#choice
+    "Wait" -> wait
+    "Open the door" -> open
+#endchoice
+
+;wait
+You wait. The candle flickers, and you hear a noise from the
+other side of the door. It sounds like... footsteps?
+#goto door-choice
+
+;open
+On the other side of the door is another room, almost identical
+to the previous one, but this one feels much more homely and
+vibrant. There is a single bed in the corner and a desk along
+the wall. At this desk sits a man dressed in purple robes
+and a comically pointy hat, pouring over the pages of a dusty
+book. He looks up from his reading and fixes his eyes on you.
+
+"It worked! My spell worked! I'm finally saved - hopefully."
+
+#choice How would you like to respond?
+    "Introduce yourself" -> wizard-monologue
+    "Demand answers" -> wizard-monologue
+#endchoice
+
+;wizard-monologue
+As you try to respond, your lips suddenly seal shut.
+
+"Nuh uh! My turn to talk. You will have your turn in a minute.
+
+I appear to have lost my memory. According to this spell book I
+have been writing, I'm on the deepest floor of a dungeon I
+apparently built, and this is where I practice my spells safely.
+According to this, I was testing a new memory spell on a goblin,
+but something must have gone wrong because I can't remember
+anything.
+
+I found this spell in my book to summon help. This is where you
+come in. I need your help to get past the goblin I was testing
+on. Once that is done, I need your help getting out of this
+darn dungeon (and hopefully recovering some of my memory along
+the way, if that's even possible).
+
+Will you help me? Never mind, that's a silly question. The spell
+isn't reversible, so the only way for you to leave this dungeon
+is the normal way - and I think you'll find it quite tricky
+without my book's knowledge of this place.
+
+So, introduce yourselves! Oh right, I silenced you."
+
+Your lips unseal.
+
+"My name is {player.name}, and I am a {player.race} {player.class}."
+
+;no-goblin
+#choice Enter the next room and face the goblin?
+    "Yes" -> goblin
+    "Wait" -> no-goblin
+#endchoice
+
+;goblin
+#encounter goblin
+    win -> win-goblin
+    lose -> lose-goblin
+#endencounter
+
+;lose-goblin
+A goblin blocks your path deeper into the dungeon.
+Your adventure ends here...
+#end
+
+;win-goblin
+You search the room and find a healing potion hidden among the scattered spell components.
+You now have {player.potions += 1} healing potion(s)!
+The wizard retrieves his staff. Frost briefly creeps along its length before fading.
+A spiralling staircase leads upward. The air grows colder with every step.
+
+#encounter FrostElemental
+    win -> FEWin
+    lose -> FELose
+#endencounter
+
+;FELose
+The dungeon claims another frozen soul...
+#end
+
+;FEWin
+The cold fades. A distant doorway of light appears above you.
+You may yet escape this dungeon...
+#end
